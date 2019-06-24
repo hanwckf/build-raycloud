@@ -9,7 +9,7 @@ pacman -Rn --noconfirm linux-aarch64 linux-firmware
 [ -z "`grep ttyS0 ./etc/securetty`" ] && echo "ttyS0" >> ./etc/securetty
 
 # set /etc/fstab
-[ -z "`grep mmcblk1p1 ./etc/fstab`" ] && echo "/dev/mmcblk1p1 / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
+[ -z "`grep mmcblk2p1 ./etc/fstab`" ] && echo "/dev/mmcblk2p1 / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
 
 # set ntp server
 sed -i '/^#NTP/cNTP=time1.aliyun.com 2001:470:0:50::2' ./etc/systemd/timesyncd.conf
