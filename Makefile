@@ -22,8 +22,7 @@ help:
 build: $(TARGETS)
 
 clean: $(TARGETS:%=%_clean)
-	
-	
+
 dl_kernel: $(DL_KERNEL)/$(DTB) $(DL_KERNEL)/Image $(DL_KERNEL)/modules.tar.xz
 
 $(DL_KERNEL)/$(DTB):
@@ -54,7 +53,6 @@ $(DL)/$(ARCHLINUX_PKG):
 
 archlinux_clean:
 	rm -f $(DL)/$(ARCHLINUX_PKG)
-	rm -rf $(OUTPUT)/archlinux
 
 else
 archlinux:
@@ -82,7 +80,6 @@ $(DL)/$(ALPINE_PKG):
 
 alpine_clean:
 	rm -f $(DL)/$(ALPINE_PKG)
-	rm -rf $(OUTPUT)/alpine
 
 else
 alpine:

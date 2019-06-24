@@ -111,7 +111,8 @@ func_release(){
 				emmc.uImage
 		xz -v -f -T0 $output/archlinux/archlinux.tar
 		imgname_new="`basename $rootfs | sed "s/${origin}/${target}/" | sed 's/.gz$/.xz/'`"
-		mv $output/archlinux/archlinux.tar.xz $output/archlinux/$imgname_new
+		mkdir -p $output/release
+		mv $output/archlinux/archlinux.tar.xz $output/release/$imgname_new
 	fi
 }
 

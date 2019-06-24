@@ -118,7 +118,8 @@ func_release(){
 				emmc.uImage
 		xz -v -f -T0 $output/alpine/alpine.tar
 		imgname_new="`basename $rootfs | sed "s/${origin}/${target}/" | sed 's/.gz$/.xz/'`"
-		mv $output/alpine/alpine.tar.xz $output/alpine/$imgname_new
+		mkdir -p $output/release
+		mv $output/alpine/alpine.tar.xz $output/release/$imgname_new
 	fi
 }
 

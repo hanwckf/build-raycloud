@@ -1,0 +1,25 @@
+dist: xenial
+language: minimal
+sudo: required
+addons:
+  apt:
+    packages:
+    - qemu-user-static
+    - binfmt-support
+    - bsdtar
+    - axel
+    - tree
+script:
+- make build_alpine=y build_archlinux=y build
+- tree -n output
+deploy:
+  provider: releases
+  api_key:
+    secure: 1QLooHj1g7bI8lhCvpTkktae4WceVNtG+YNw/XWr5OkxwxQn1EGDIhNDQ+EE661a4c7z5Ocp9/38kgWYEdnGb3ucM/ThCESqoIPNQjc1bww4cC7uvqrdoexgUIOH3XUEna/NX2meFIV3+zxqFcarrE1++0muCRSykk19fKvFUwCFImpa6Y6H4zcaByYf5XYD+ii+iolWqy5CAOUN5XgjgGfTJbkUj9kti6FFX8WtNsREiucaaj/GbCOH5hpkTB6MSpd6mRGFLpx0cp5aP7ayJVkWPkcEtpS4vWepb3Z4v+MuNZaVDHaC32ZY4FtvlcaUZ2BcuT/8oBoUgUdPg0hnvV7/zW9kV0JKQGw7Zm9A7DE9KBaT4dimhvFjLPn2l6zRFzVsNWHA/ulftqnd+brCr9fz0qr8iggEO/lNxhrukgGIroPmjMjuOCoWrjNgxoJ78yvODT7mIZ/gIN7yvltauwALUdo1uC1L/WbxLZu4fORQku3tJNLA15+Lfh8z3NteFDFpZM4cJpk1N0+kixu88bEePHp49ytp7l8HWu8sRocODFmqymTtFb80AX7O1eAUs/IOtkRWWXPBtiTihHVvH39APPnRA3VeHHr20D6mU+U7UeM40b45vwyOruUDmBePrZ+OVSoLQC/Yu4jrCN/X7JuqiIDnu94EvqbD6W70L4k=
+  skip_cleanup: true
+  overwrite: true
+  file_glob: true
+  file: output/release/*.xz
+  on:
+    repo: hanwckf/build-raycloud
+    tags: true
