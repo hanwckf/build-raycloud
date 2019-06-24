@@ -11,7 +11,7 @@ addons:
     - tree
 script:
 - make build_alpine=y build_archlinux=y build
-- tree -n output
+- tree -hn output
 deploy:
   provider: releases
   api_key:
