@@ -17,7 +17,8 @@ WGET_PKG := wget -P $(DL)
 OUTPUT := output
 
 help:
-	@echo "make help"
+	@echo "Usage: make build_[system1]=y build_[system2]=y build"
+	@echo "available system: $(TARGETS)"
 
 build: $(TARGETS)
 
