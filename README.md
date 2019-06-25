@@ -5,6 +5,8 @@
 
 ### scripts for build raycloud firmware
 
+##### Note: No fucking rtk_avcpu support
+
 - alpine
   - default root password: admin
 - archlinuxarm
