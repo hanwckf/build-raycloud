@@ -44,3 +44,5 @@ iface eth0 inet dhcp
 EOF
 
 echo "kernel.random.write_wakeup_threshold=1024" > ./etc/sysctl.d/01-random.conf
+sed -i 's#http://dl-cdn.alpinelinux.org#https://mirrors.tuna.tsinghua.edu.cn#' ./etc/apk/repositories
+echo "blacklist 8822bs" > ./etc/modprobe.d/disable-8822bs.conf

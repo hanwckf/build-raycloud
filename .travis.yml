@@ -10,7 +10,7 @@ addons:
     - axel
     - tree
 script:
-- make build_alpine=y build_archlinux=y build
+- make build_alpine=y build_archlinux=y build_ubuntu=y build
 - tree -hn output
 deploy:
   provider: releases

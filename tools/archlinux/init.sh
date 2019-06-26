@@ -5,6 +5,8 @@ export PATH=/usr/sbin:/usr/bin:/bin:/sbin
 # remove kernel packages
 pacman -Rn --noconfirm linux-aarch64 linux-firmware
 
+systemctl set-default multi-user.target
+
 # set securetty
 [ -z "`grep ttyS0 ./etc/securetty`" ] && echo "ttyS0" >> ./etc/securetty
 
@@ -26,6 +28,8 @@ ln -sf ../usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
 
 # change mirrors
 echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo' > ./etc/pacman.d/mirrorlist
+
+echo "blacklist 8822bs" > ./etc/modprobe.d/disable-8822bs.conf
 
 echo "root:admin" |chpasswd
 

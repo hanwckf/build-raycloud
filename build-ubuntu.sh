@@ -2,9 +2,9 @@
 
 [ "$EUID" != "0" ] && echo "please run as root" && exit 1
 
-os="alpine"
-rootsize=700
-origin="minirootfs"
+os="ubuntu"
+rootsize=800
+origin="arm64"
 target="raycloud"
 
 tmpdir="tmp"
@@ -17,7 +17,7 @@ DTB=rtd-1296-raycloud-2GB.dtb
 
 chroot_prepare() {
 	if [ -z "$TRAVIS" ]; then
-		sed -i 's#http://dl-cdn.alpinelinux.org#https://mirrors.tuna.tsinghua.edu.cn#' $rootfs_mount_point/etc/apk/repositories
+		sed -i 's#http://ports.ubuntu.com#http://mirrors.ustc.edu.cn#' $rootfs_mount_point/etc/apt/sources.list
 		echo "nameserver 119.29.29.29" > $rootfs_mount_point/etc/resolv.conf
 	else
 		echo "nameserver 8.8.8.8" > $rootfs_mount_point/etc/resolv.conf
@@ -30,9 +30,10 @@ chroot_post() {
 
 add_resizemmc() {
 	echo "add resize mmc script"
-	cp ./tools/${os}/resizemmc.sh $rootfs_mount_point/sbin/resizemmc.sh
-	cp ./tools/${os}/resizemmc $rootfs_mount_point/etc/init.d/resizemmc
-	ln -sf /etc/init.d/resizemmc $rootfs_mount_point/etc/runlevels/default/resizemmc
+	cp ./tools/systemd/resizemmc.service $rootfs_mount_point/lib/systemd/system/
+	cp ./tools/systemd/resizemmc.sh $rootfs_mount_point/sbin/
+	mkdir -p $rootfs_mount_point/etc/systemd/system/basic.target.wants
+	ln -sf /lib/systemd/system/resizemmc.service $rootfs_mount_point/etc/systemd/system/basic.target.wants/resizemmc.service
 	touch $rootfs_mount_point/root/.need_resize
 }
 

@@ -6,7 +6,7 @@ DTB_URL := $(URL_BASE)/$(RELEASE_TAG)/$(DTB)
 KERNEL_URL := $(URL_BASE)/$(RELEASE_TAG)/Image
 KMOD_URL := $(URL_BASE)/$(RELEASE_TAG)/modules.tar.xz
 
-TARGETS := archlinux alpine
+TARGETS := archlinux alpine ubuntu
 
 DL := dl
 DL_KERNEL := $(DL)/kernel/$(RELEASE_TAG)
@@ -85,4 +85,29 @@ alpine_clean:
 else
 alpine:
 alpine_clean:
+endif
+
+ifeq ($(build_ubuntu),y)
+UBUNTU_PKG := ubuntu-base-18.04.2-base-arm64.tar.gz
+
+ifneq ($(TRAVIS),)
+UBUNTU_URL_BASE := http://cdimage.ubuntu.com/ubuntu-base/releases/bionic/release
+else
+UBUNTU_URL_BASE := https://mirrors.tuna.tsinghua.edu.cn/ubuntu-cdimage/ubuntu-base/releases/bionic/release
+endif
+
+ubuntu: ubuntu_dl
+	sudo ./build-ubuntu.sh release $(DL)/$(UBUNTU_PKG) $(DL_KERNEL)
+
+ubuntu_dl: dl_kernel $(DL)/$(UBUNTU_PKG)
+
+$(DL)/$(UBUNTU_PKG):
+	$(WGET_PKG) $(UBUNTU_URL_BASE)/$(UBUNTU_PKG)
+
+ubuntu_clean:
+	rm -f $(DL)/$(UBUNTU_PKG)
+
+else
+ubuntu:
+ubuntu_clean:
 endif
