@@ -3,7 +3,7 @@
 [ "$EUID" != "0" ] && echo "please run as root" && exit 1
 
 os="ubuntu"
-rootsize=800
+rootsize=850
 origin="arm64"
 target="raycloud"
 
@@ -22,6 +22,10 @@ chroot_prepare() {
 	else
 		echo "nameserver 8.8.8.8" > $rootfs_mount_point/etc/resolv.conf
 	fi
+}
+
+ext_init_param() {
+	echo "BUILD_MINIMAL=y"
 }
 
 chroot_post() {

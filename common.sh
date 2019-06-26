@@ -50,7 +50,7 @@ func_generate() {
 
 	# chroot
 	echo "chroot to ${os} rootfs"
-	LANG=C LC_ALL=C chroot $rootfs_mount_point /init.sh
+	eval $(ext_init_param) LANG=C LC_ALL=C chroot $rootfs_mount_point /init.sh
 
 	# clean rootfs
 	rm -f $rootfs_mount_point/init.sh
@@ -61,12 +61,11 @@ func_generate() {
 
 	# add /lib/modules
 	echo "add /lib/modules"
-	tar xf $kdir/modules.tar.xz --strip-components 1 -C $rootfs_mount_point/lib
+	tar --no-same-owner -xf $kdir/modules.tar.xz --strip-components 1 -C $rootfs_mount_point/lib
 
 	# chroot post
 	chroot_post
 
-	chown -R root:root $rootfs_mount_point
 	umount $rootfs_mount_point
 	echo "generate ${os} rootfs done"
 

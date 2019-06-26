@@ -24,6 +24,10 @@ chroot_prepare() {
 	fi
 }
 
+ext_init_param() {
+	:
+}
+
 chroot_post() {
 	:
 }

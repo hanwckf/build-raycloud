@@ -1,22 +1,37 @@
 #!/bin/sh
 
-export PATH=/usr/sbin:/usr/bin:/bin:/sbin
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 mount -t proc none /proc
 mount -t sysfs none /sys
 mount -t devpts none /dev/pts
 
 export DEBIAN_FRONTEND=noninteractive
-apt -q update && apt -q -y install dialog apt-utils
+apt_arg='-qq -y -o Dpkg::Progress-Fancy="0"'
 
-apt -q -y upgrade
+apt $apt_arg update && apt $apt_arg upgrade
 
-apt -q -y install ubuntu-minimal ca-certificates net-tools openssh-server nano
+if [ "$BUILD_MINIMAL" = "y" ]; then
+	echo "Build minimal ubuntu"
+	apt $apt_arg install ubuntu-minimal ubuntu-standard
+else
+	yes | unminimize
+fi
 
+apt $apt_arg install net-tools openssh-server dialog cpufrequtils
+apt -f -y install
+apt $apt_arg purge irqbalance && apt $apt_arg autoremove
 apt clean
 
 systemctl enable systemd-networkd
+systemctl disable ondemand
 systemctl set-default multi-user.target
+
+cat <<EOF > ./etc/default/cpufrequtils
+ENABLE=true
+GOVERNOR=ondemand
+
+EOF
 
 cat <<EOF > ./etc/netplan/default.yaml
 network:

@@ -7,7 +7,7 @@
 [ "$EUID" != "0" ] && echo "please run as root" && exit 1
 
 os="archlinux"
-rootsize=1500
+rootsize=1400
 origin="latest"
 target="raycloud-$(date +%Y-%m-%d)"
 
@@ -20,6 +20,10 @@ cur_dir=$(pwd)
 DTB=rtd-1296-raycloud-2GB.dtb
 
 chroot_prepare() {
+	:
+}
+
+ext_init_param() {
 	:
 }
 
