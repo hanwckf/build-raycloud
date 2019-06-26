@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export PATH=/usr/sbin:/usr/bin:/bin:/sbin
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # remove kernel packages
 pacman -Rn --noconfirm linux-aarch64 linux-firmware

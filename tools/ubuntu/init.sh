@@ -18,7 +18,7 @@ else
 	yes | unminimize
 fi
 
-apt $apt_arg install net-tools openssh-server dialog cpufrequtils
+apt $apt_arg install net-tools openssh-server dialog cpufrequtils haveged
 apt -f -y install
 apt $apt_arg purge irqbalance && apt $apt_arg autoremove
 apt clean
