@@ -29,7 +29,9 @@ ext_init_param() {
 }
 
 chroot_post() {
-	:
+	if [ -n "$TRAVIS" ]; then
+		sed -i 's#http://dl-cdn.alpinelinux.org#https://mirrors.tuna.tsinghua.edu.cn#' $rootfs_mount_point/etc/apk/repositories
+	fi
 }
 
 add_resizemmc() {

@@ -29,7 +29,11 @@ ext_init_param() {
 }
 
 chroot_post() {
-	:
+	if [ -z "$TRAVIS" ]; then
+		sed -i 's#http://#https://#' $rootfs_mount_point/etc/apt/sources.list
+	else
+		sed -i 's#http://ports.ubuntu.com#https://mirrors.ustc.edu.cn#' $rootfs_mount_point/etc/apt/sources.list
+	fi
 }
 
 add_resizemmc() {
