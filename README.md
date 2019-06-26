@@ -12,3 +12,6 @@
 - archlinuxarm
   - default root password: admin
   - run `pacman-key --init && pacman-key --populate archlinuxarm` to init keyring
+- ubuntu
+  - default root password: admin
+  - run `unminimize` to restore man pages
