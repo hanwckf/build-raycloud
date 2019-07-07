@@ -2,6 +2,10 @@
 
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
+mount -t proc none /proc
+mount -t sysfs none /sys
+mount -t devtmpfs none /dev
+
 # remove kernel packages
 pacman -Rn --noconfirm linux-aarch64 linux-firmware
 
@@ -25,13 +29,27 @@ locale-gen
 echo 'LANG=en_US.utf8' > ./etc/locale.conf
 echo 'KEYMAP=us' > ./etc/vconsole.conf
 ln -sf ../usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
-
-# change mirrors
-echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo' > ./etc/pacman.d/mirrorlist
-
 echo "blacklist 8822bs" > ./etc/modprobe.d/disable-8822bs.conf
-
 echo "root:admin" |chpasswd
+
+pacman-key --init
+pacman-key --populate archlinuxarm
+
+sed -i 's/CheckSpace/#CheckSpace/' ./etc/pacman.conf
+pacman -Sy --noconfirm hdparm
+sed -i 's/#CheckSpace/CheckSpace/' ./etc/pacman.conf
+
+cat <<EOF > ./etc/udev/rules.d/99-hdparm.rules
+ACTION=="add", SUBSYSTEM=="block", KERNEL=="sataa", RUN+="/usr/bin/hdparm -S 120 /dev/sataa"
+ACTION=="add", SUBSYSTEM=="block", KERNEL=="satab", RUN+="/usr/bin/hdparm -S 120 /dev/satab"
+
+EOF
 
 # clean
 pacman -Sc --noconfirm
+rm -rf ./etc/pacman.d/gnupg
+killall -9 gpg-agent
+
+umount /dev
+umount /sys
+umount /proc

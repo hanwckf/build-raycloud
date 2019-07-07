@@ -20,7 +20,13 @@ cur_dir=$(pwd)
 DTB=rtd-1296-raycloud-2GB.dtb
 
 chroot_prepare() {
-	:
+	rm -rf $rootfs_mount_point/etc/resolv.conf
+	if [ -z "$TRAVIS" ]; then
+		echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo' > $rootfs_mount_point/etc/pacman.d/mirrorlist
+		echo "nameserver 119.29.29.29" > $rootfs_mount_point/etc/resolv.conf
+	else
+		echo "nameserver 8.8.8.8" > $rootfs_mount_point/etc/resolv.conf
+	fi
 }
 
 ext_init_param() {
@@ -28,7 +34,10 @@ ext_init_param() {
 }
 
 chroot_post() {
-	:
+	ln -sf /run/systemd/resolve/resolv.conf $rootfs_mount_point/etc/resolv.conf
+	if [ -n "$TRAVIS" ]; then
+		echo 'Server = https://mirrors.tuna.tsinghua.edu.cn/archlinuxarm/$arch/$repo' > $rootfs_mount_point/etc/pacman.d/mirrorlist
+	fi
 }
 
 add_resizemmc() {
