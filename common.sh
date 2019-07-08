@@ -4,7 +4,7 @@ func_generate() {
 	local rootfs=$1
 	local kdir=$2
 
-	[ ! -f "$rootfs" ] && echo "${os} rootfs file not found!" && return 1
+	[ "$os" != "debian" ] && [ ! -f "$rootfs" ] && echo "${os} rootfs file not found!" && return 1
 	[ ! -d "$kdir" ] && echo "kernel dir not found!" && return 1
 
 	# create ext4 rootfs img
@@ -18,14 +18,17 @@ func_generate() {
 	mount -o loop $tmpdir/rootfs.bin $rootfs_mount_point
 
 	# extract rootfs
-	mkdir -p $rootfs_mount_point
-	echo "extract ${os} rootfs($rootfs) to $rootfs_mount_point"
-	if [ $os = "archlinux" ]; then
-		tarbin="bsdtar"
+	if [ "$os" = "debian" ]; then
+		generate_rootfs $rootfs_mount_point
 	else
-		tarbin="tar"
+		echo "extract ${os} rootfs($rootfs) to $rootfs_mount_point"
+		if [ "$os" = "archlinux" ]; then
+			tarbin="bsdtar"
+		else
+			tarbin="tar"
+		fi
+		$tarbin -xpf $rootfs -C $rootfs_mount_point
 	fi
-	$tarbin -xpf $rootfs -C $rootfs_mount_point
 
 	# configure binfmt
 	echo "configure binfmt to chroot"

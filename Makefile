@@ -6,7 +6,7 @@ DTB_URL := $(URL_BASE)/$(RELEASE_TAG)/$(DTB)
 KERNEL_URL := $(URL_BASE)/$(RELEASE_TAG)/Image
 KMOD_URL := $(URL_BASE)/$(RELEASE_TAG)/modules.tar.xz
 
-TARGETS := archlinux alpine ubuntu
+TARGETS := archlinux alpine ubuntu debian
 
 DL := dl
 DL_KERNEL := $(DL)/kernel/$(RELEASE_TAG)
@@ -110,4 +110,16 @@ ubuntu_clean:
 else
 ubuntu:
 ubuntu_clean:
+endif
+
+ifeq ($(build_debian),y)
+
+debian: dl_kernel
+	sudo ./build-debian.sh release - $(DL_KERNEL)
+
+debian_clean:
+
+else
+debian:
+debian_clean:
 endif
