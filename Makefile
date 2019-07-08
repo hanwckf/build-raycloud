@@ -1,5 +1,5 @@
 URL_BASE := https://github.com/hanwckf/raycloud-1296/releases/download
-RELEASE_TAG = v2019-6-25
+RELEASE_TAG = v2019-6-28
 DTB := rtd-1296-raycloud-2GB.dtb
 
 DTB_URL := $(URL_BASE)/$(RELEASE_TAG)/$(DTB)
