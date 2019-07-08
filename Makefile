@@ -6,7 +6,7 @@ DTB_URL := $(URL_BASE)/$(RELEASE_TAG)/$(DTB)
 KERNEL_URL := $(URL_BASE)/$(RELEASE_TAG)/Image
 KMOD_URL := $(URL_BASE)/$(RELEASE_TAG)/modules.tar.xz
 
-TARGETS := archlinux alpine ubuntu debian
+TARGETS := debian archlinux alpine ubuntu
 
 DL := dl
 DL_KERNEL := $(DL)/kernel/$(RELEASE_TAG)

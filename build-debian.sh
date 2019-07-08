@@ -45,7 +45,7 @@ generate_rootfs() {
 	local rootfs=$1
 	mirrorurl="https://mirrors.ustc.edu.cn/debian"
 	if [ -n "$TRAVIS" ]; then
-		mirrorurl="http://httpredir.debian.org/debian"
+		mirrorurl="http://ftp.debian.org/debian"
 	fi
 	echo "generate debian rootfs to $rootfs by debootstrap..."
 	debootstrap --components=main,contrib,non-free --no-check-certificate --no-check-gpg \
