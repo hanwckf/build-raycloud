@@ -15,3 +15,5 @@
 - ubuntu
   - default root password: admin
   - run `unminimize` to restore man pages
+- debian
+  - default root password: admin
