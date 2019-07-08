@@ -20,8 +20,10 @@ DTB=rtd-1296-raycloud-2GB.dtb
 
 chroot_prepare() {
 	if [ -z "$TRAVIS" ]; then
+		echo "deb https://mirrors.ustc.edu.cn/debian/ ${os_ver} main contrib non-free" > $rootfs_mount_point/etc/apt/sources.list
 		echo "nameserver 119.29.29.29" > $rootfs_mount_point/etc/resolv.conf
 	else
+		echo "deb http://httpredir.debian.org/debian/ ${os_ver} main contrib non-free" > $rootfs_mount_point/etc/apt/sources.list
 		echo "nameserver 8.8.8.8" > $rootfs_mount_point/etc/resolv.conf
 	fi
 }
@@ -45,7 +47,7 @@ generate_rootfs() {
 	local rootfs=$1
 	mirrorurl="https://mirrors.ustc.edu.cn/debian"
 	if [ -n "$TRAVIS" ]; then
-		mirrorurl="http://ftp.debian.org/debian"
+		mirrorurl="http://httpredir.debian.org/debian"
 	fi
 	echo "generate debian rootfs to $rootfs by debootstrap..."
 	debootstrap --components=main,contrib,non-free --no-check-certificate --no-check-gpg \
