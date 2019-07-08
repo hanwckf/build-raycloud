@@ -2,6 +2,9 @@
 
 [ "$EUID" != "0" ] && echo "please run as root" && exit 1
 
+set -e
+set -o pipefail
+
 os="ubuntu"
 rootsize=850
 origin="arm64"

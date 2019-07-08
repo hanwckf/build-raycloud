@@ -2,6 +2,9 @@
 
 [ "$EUID" != "0" ] && echo "please run as root" && exit 1
 
+set -e
+set -o pipefail
+
 os="alpine"
 rootsize=700
 origin="minirootfs"
