@@ -9,6 +9,14 @@ mount -t devpts none /dev/pts
 export DEBIAN_FRONTEND=noninteractive
 apt_arg='-qq -y -o Dpkg::Progress-Fancy="0"'
 
+cat <<EOF > ./usr/sbin/policy-rc.d
+#!/bin/sh
+exit 101
+
+EOF
+
+chmod +x ./usr/sbin/policy-rc.d
+
 apt $apt_arg update && apt $apt_arg upgrade
 
 if [ "$BUILD_MINIMAL" = "y" ]; then
@@ -19,7 +27,7 @@ else
 fi
 
 apt $apt_arg install net-tools openssh-server dialog cpufrequtils haveged
-apt -f -y install
+apt -f $apt_arg install
 apt $apt_arg purge irqbalance && apt $apt_arg autoremove
 apt clean
 
@@ -44,6 +52,12 @@ network:
 
 EOF
 
+cat <<EOF > ./etc/udev/rules.d/99-hdparm.rules
+ACTION=="add", SUBSYSTEM=="block", KERNEL=="sataa", RUN+="/sbin/hdparm -S 120 /dev/sataa"
+ACTION=="add", SUBSYSTEM=="block", KERNEL=="satab", RUN+="/sbin/hdparm -S 120 /dev/satab"
+
+EOF
+
 echo "en_US.UTF-8 UTF-8" > ./etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > ./etc/default/locale
@@ -59,6 +73,7 @@ echo "root:admin" |chpasswd
 
 rm -rf ./var/cache
 rm -rf ./var/lib/apt/*
+rm -f ./usr/sbin/policy-rc.d
 
 umount /dev/pts
 umount /sys
