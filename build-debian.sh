@@ -51,7 +51,7 @@ generate_rootfs() {
 	fi
 	echo "generate debian rootfs to $rootfs by debootstrap..."
 	debootstrap --components=main,contrib,non-free --no-check-certificate --no-check-gpg \
-		--arch=arm64 --variant=minbase --foreign --verbose $os_ver $rootfs $mirrorurl
+		--include=apt-utils --arch=arm64 --variant=minbase --foreign --verbose $os_ver $rootfs $mirrorurl
 }
 
 add_resizemmc() {
