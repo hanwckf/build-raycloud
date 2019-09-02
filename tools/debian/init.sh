@@ -40,7 +40,8 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai ./etc/localtime
 sed -i '/^#PermitRootLogin/cPermitRootLogin yes' ./etc/ssh/sshd_config
 sed -i '/^#NTP/cNTP=time1.aliyun.com 2001:470:0:50::2' ./etc/systemd/timesyncd.conf
 ln -sf /lib/systemd/system/getty@.service ./etc/systemd/system/getty.target.wantsgetty@ttyS0.service
-echo "/dev/mmcblk2p1 / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
+echo "/dev/root / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
+
 echo "blacklist 8822bs" > ./etc/modprobe.d/disable-8822bs.conf
 echo "raycloud" > ./etc/hostname
 echo "root:admin" |chpasswd

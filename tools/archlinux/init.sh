@@ -12,10 +12,10 @@ pacman -Rn --noconfirm linux-aarch64 linux-firmware
 systemctl set-default multi-user.target
 
 # set securetty
-[ -z "`grep ttyS0 ./etc/securetty`" ] && echo "ttyS0" >> ./etc/securetty
+echo "ttyS0" >> ./etc/securetty
 
 # set /etc/fstab
-[ -z "`grep mmcblk2p1 ./etc/fstab`" ] && echo "/dev/mmcblk2p1 / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
+echo "/dev/root / ext4 defaults,noatime,nodiratime,errors=remount-ro 0 1" >> ./etc/fstab
 
 # set ntp server
 sed -i '/^#NTP/cNTP=time1.aliyun.com 2001:470:0:50::2' ./etc/systemd/timesyncd.conf
