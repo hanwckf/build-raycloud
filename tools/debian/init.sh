@@ -46,6 +46,7 @@ echo "blacklist 8822bs" > ./etc/modprobe.d/disable-8822bs.conf
 echo "raycloud" > ./etc/hostname
 echo "root:admin" |chpasswd
 
+rm -rf ./var/log/journal
 rm -rf ./var/cache
 rm -rf ./var/lib/apt/*
 rm -f ./usr/sbin/policy-rc.d

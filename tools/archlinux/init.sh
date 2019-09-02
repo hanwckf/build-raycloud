@@ -50,6 +50,8 @@ pacman -Sc --noconfirm
 rm -rf ./etc/pacman.d/gnupg
 killall -9 gpg-agent
 
+rm -rf ./var/log/journal
+
 umount /dev
 umount /sys
 umount /proc
