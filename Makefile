@@ -88,7 +88,7 @@ alpine_clean:
 endif
 
 ifeq ($(build_ubuntu),y)
-UBUNTU_PKG := ubuntu-base-18.04.3-base-arm64.tar.gz
+UBUNTU_PKG := ubuntu-base-18.04.2-base-arm64.tar.gz
 
 ifneq ($(TRAVIS),)
 UBUNTU_URL_BASE := http://cdimage.ubuntu.com/ubuntu-base/releases/bionic/release
